@@ -1,0 +1,10 @@
+'''定义状态码'''
+
+# 正常
+STATUS_OK = 0
+
+#用户相关
+STATUAS_INPUT_ERROR = 2001
+
+# 服务相关
+STATUAS_SERVICE_ERROR = 5001
