@@ -3,8 +3,10 @@ import datetime
 from django.db import models
 
 # Create your models here.
+from lib.orm import ModelMixin
 
-class User(models.Model):
+
+class User(models.Model, ModelMixin):
   SEX =(
     ('男性', '男性'),
     ('女性', '女性'),
@@ -26,19 +28,15 @@ class User(models.Model):
     birthday = datetime.date(self.birth_year, self.birth_month,self.birth_day)
     return (today - birthday).days // 365
 
-  def to_dict(self):
-    return {
-      'nickname': self.nickname,
-      'phone': self.phone,
-      'sex': self.sex,
-      'age': self.age,
-      'avatar': self.avatar,
-      'address': self.address
+  @property
+  def profile(self):
+    p = None
+    if not hasattr(self, '_profile'):
+      self._profile, _ = Profile.objects.get_or_create(id=self.id)
+    return self._profile
 
 
-    }
-
-class Profile(models.Model):
+class Profile(models.Model, ModelMixin):
   SEX = (
     ('男性', '男性'),
     ('女性', '女性'),
@@ -52,3 +50,4 @@ class Profile(models.Model):
   vibration = models.BooleanField(default=True, verbose_name='是否开启震动')
   only_matche = models.BooleanField(default=True, verbose_name='不让未匹配的人看我的相册')
   auto_play = models.BooleanField(default=True, verbose_name='是否自动播放视频')
+
