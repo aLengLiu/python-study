@@ -1,8 +1,10 @@
 
 
 # Create your views here.
-from lib.http import render_json
+import os
 
+from lib.http import render_json
+from django.conf import settings
 from user.models import User
 from user.validator import ProfileForm
 
@@ -61,5 +63,15 @@ def modify_profile(request):
 
 
 def upload_avatar(request):
-  return render_json()
+  user = request.user
+  avatar = request.FILES.get('avatar')
+  filename = 'avatar_%s' % user.id
+  filepath = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, filename)
+
+  with open(filepath, 'wb') as fp:
+    for chunk in avatar.chunks():
+      fp.write(chunk)
+
+  print(avatar)
+  return render_json(None, STATUS.STATUS_OK)
 
