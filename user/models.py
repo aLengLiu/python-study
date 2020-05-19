@@ -35,6 +35,19 @@ class User(models.Model, ModelMixin):
       self._profile, _ = Profile.objects.get_or_create(id=self.id)
     return self._profile
 
+  def to_dict(self):
+    return {
+      'id': self.id,
+      'nickname': self.nickname,
+      'phone': self.phone,
+      'sex': self.sex,
+      'birth_year': self.birth_year,
+      'birth_month': self.birth_month,
+      'birth_day': self.birth_day,
+      'avatar': self.avatar,
+      'address': self.address,
+    }
+
 
 class Profile(models.Model, ModelMixin):
   SEX = (

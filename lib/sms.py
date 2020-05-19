@@ -16,7 +16,7 @@ def gen_verify_code(length=4):
   sms_code = ''.join(random.choices(random_list, k=length))
   return sms_code
 
-@call_by_worker
+# @call_by_worker
 def send_verify_code(phone):
     '''发送验证码'''
     code = gen_verify_code()
@@ -40,7 +40,7 @@ def send_verify_code(phone):
       return True
     return False
 
-@call_by_worker
+# @call_by_worker
 def check_vode(phone, code, type):
   '''检查验证码'''
   cache_code = 0
